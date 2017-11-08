@@ -1,0 +1,41 @@
+<body>
+	<div id="home">
+		<div id="home-img">
+			<%= image_tag("home2.png") %>
+		</div>
+		<div id="home-text">
+			<p>
+				La Calculadora 2050 para Chile es una herramienta de modelación que permite elaborar diferentes escenarios energéticos a futuro con el fin de poder visualizar el impacto de las diferentes medidas que se adopten según el usuario, en términos de emisiones de gases efecto invernadero (GEI) y la matriz energética al 2050.
+			</p>
+			<p>
+				A diferencia de otros modelos, la Calculadora 2050 no pretende ser una modelación detallada de cada sector involucrado, sino que busca responder a la pregunta <i>¿Qué pasaría si?</i> frente a cualquier decisión en términos de políticas energéticas y poder observar sus impactos. Los resultados de los escenarios abren una discusión sobre el futuro del sistema energético nacional y áreas con mayor potencial de mitigación de emisiones de GEI.
+			</p>
+			<p>
+				El primer modelo de Calculadora 2050 fue desarrollado por el Reino Unido el año 2009, y hasta la fecha ya hay más de 24 países que han desarrollado y publicado su propia versión de la Calculadora. En Chile, la calculadora ha sido desarrollada por el Ministerio de Energía, junto con la colaboración de la embajada británica en Chile y el Centro de Energía de la Universidad de Chile. 
+ 			</p>
+ 			<p>
+ 				En esta primera versión de la Calculadora 2050 para Chile se presentan un total de 28 variables de distintos sectores, lo que permite elaborar una variada gama de escenarios posibles a desarrollar. Para obtener más información sobre los supuestos establecidos en cada variable, debes hacer clic sobre ellas en donde verás una hoja resumen con todos sus supuestos y valores definidos. 
+ 			</p>
+ 			<p>
+ 				Te invitamos a elaborar tu propio escenario sobre como piensas Chile al 2050!
+ 			</p>
+		</div>
+		<%= link_to 'Ir a la calculadora', calculator_index_path, {:id=>"home-btn", :class=>"btn btn-success"} %>
+	</div>
+	</br>
+	</br>
+	<p id="footer-colaborators">Con colaboracion de:</p>
+	<div class="footer">
+		<div class="footer-logo-container">
+			<%= image_tag "logos.png", class:"footer-logo" %>
+		</div>
+		<p id="footer-help">
+			Cualquier pregunta sobre este sito referirla a <a> scaceres@minenergia.cl </a>
+		</p>
+		<div id="footer-info">
+			<p>
+				<b>Ministerio de Energía,</b> Alameda 1449, Pisos 13 y 14, Edificio Santiago Downtown II, Santiago de Chile - Fono: +56 2 2 365 6800
+			</p>
+		</div>
+	</div>
+</body>

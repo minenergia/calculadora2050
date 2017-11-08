@@ -1,0 +1,9 @@
+#footer {
+  clear: both;
+  padding-top: 25px;
+  text-align: center;
+  font-size: 0.72em; }
+
+#footer > a {
+	color: blue;
+}

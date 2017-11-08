@@ -1,0 +1,1479 @@
+<body>
+
+  <div id="topbar">
+    <div id="name">
+      <%= link_to welcome_index_path, :class=>"w3-btn w3-black" do %>
+        <span class="glyphicon glyphicon-home"></span>
+        Calculadora 2050
+      <% end %>
+    </div>
+
+    <!-- Tabs -->
+    <div id="views" class="tab">
+      <button class="tablinks" onclick="window.openTab(event, 'energy')" id="defaultOpen">
+        <i class="fa fa-bolt" aria-hidden="true"></i> Energía
+      </button>
+      <button class="tablinks" onclick="window.openTab(event, 'electricity')">
+        <i class="fa fa-plug" aria-hidden="true"></i> Electricidad
+      </button>
+      <!-- Examples link; the content of this is defined in #savedpathway_choices div below -->
+      <button id="examples" class="newdropdown" data-dropdown="#savedpathway_choices">
+        <i class="fa fa-list" aria-hidden="true"></i> Ejemplos
+      </button>
+      <button id="share_btn" onclick="window.share();">
+        <i class="fa fa-clipboard" aria-hidden="true"></i> Compartir escenario
+      </button>
+    </div>
+  </div>
+
+  <!-- Examples choices -->
+  <div class="dropdown" id="savedpathway_choices">
+    <a class="examples" data-choices="A111111111111113213333213311" href="#">
+      Eficiencia Energética
+    </a>
+    <a class="examples" data-choices="B233222222231221111111111111" href="#">
+      Desarrollo de Energías Renovables
+    </a>
+    <a class="examples" data-choices="B233222222231221131111131111" href="#">
+      Alto Eléctrico + Energía Renovable
+    </a>
+    <a class="examples" data-choices="B233222222231223213333233311" href="#">
+      Alto Eléctrico + Energía Renovable + Eficiencia Energética
+    </a>
+    <a class="examples" data-choices="A111111111111111111111111111" href="#">
+      Todo en nivel 1
+    </a>
+  </div>
+
+  <!-- The Modal -->
+  <!-- <div id="myModal" class="modal"> -->
+
+    <!-- The Close Button -->
+    <!-- <span class="close">&times;</span> -->
+
+    <!-- Modal Content (The Image) -->
+    <!-- <img class="modal-content" id="img"> -->
+
+    <!-- Modal Caption (Image Text) -->
+    <!-- <div id="caption"></div> -->
+  <!-- </div> -->
+
+  <!-- The charts will be drawn in this block -->
+  <div id="results">
+    <!-- Spinner container -->
+    <div id="ajax_loader"></div>
+
+    <!-- Energy charts container -->
+    <div id="energy" class="tabcontent">
+      <div class="chart_content_energy">
+        <h4 class="chart_title">Oferta total de energía</h4>
+        <div id="chart_div1" class="chart"></div>
+      </div>
+      <div class="chart_content_energy">
+        <h4 class="chart_title">Demanda de energía por sector</h4>
+        <div id="chart_div2" class="chart"></div>
+      </div>
+      <div class="chart_content_energy">
+        <h4 class="chart_title">Emisiones por sector</h4>
+        <div id="chart_div3" class="chart esp"></div>
+      </div>
+    </div>
+    <!-- <div class="reduction_percentages">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <span>Reducción al 2035</span>
+            </td>
+            <td>
+              <span>x.x%</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+
+    <!-- Electricity charts content -->
+    <div id="electricity" class="tabcontent">
+      <div class="chart_content_electricity c4">
+        <h4 class="chart_title">Electricidad suministrada a la red</h4>
+        <div id="chart_div4" class="chart"></div>
+      </div>
+      <div class="chart_content_electricity">
+        <h4 class="chart_title">Demanda eléctrica</h4>
+        <div id="chart_div5" class="chart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Levers content -->
+  <div id="classic_controls">
+    <!-- Columna de la izquierda; Oferta -->
+    <div id="supply">
+      <h5>
+        <i class="fa fa-plug" aria-hidden="true"></i>
+        Generación eléctrica
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r1" class="lever alternative">
+            <td class="name">
+              <%= link_to "1. Participación de gas, diésel y carbon", path_to_image("levers/1.pdf"), :target => "_new", data: {choicenumber: 1} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/2.pdf") %>" target="_new">?
+                <span class="tooltiptext">Click para más detalles sobre qué significan los niveles A,B,C y D.</span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c1l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="1" data-choicelevel="A">A
+                <span class="tooltiptext">
+                  27% Gas, 68% Carbón, 5% Diésel
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c1l2" class="choiceLink tooltipclass" href="#" data-choicenumber="1" data-choicelevel="B">B
+                <span class="tooltiptext">
+                  75% Gas, 23% Carbón, 2% Diésel
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c1l3" class="choiceLink tooltipclass" href="#" data-choicenumber="1" data-choicelevel="C">C
+                <span class="tooltiptext">
+                  16% Gas, 80% Carbón, 4% Diésel
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c1l4" class="choiceLink tooltipclass" href="#" data-choicenumber="1" data-choicelevel="D">D
+                <span class="tooltiptext">
+                  100% Gas
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r2" class="lever incremental">
+            <td class="name">
+              <%= link_to "2. Centrales eólicas", path_to_image("levers/2.pdf"), :target => "_new", data: {choicenumber: 2} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/3.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c2l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="2" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según información CNE 2015 - 2016
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c2l2" class="choiceLink tooltipclass" href="#" data-choicenumber="2" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  De acuerdo a las licitaciones eléctricas del año 2016
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c2l3" class="choiceLink tooltipclass" href="#" data-choicenumber="2" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 11 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c2l4" class="choiceLink tooltipclass" href="#" data-choicenumber="2" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  15 GW  al 2050, 40% de Potencial teórico
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r3" class="lever incremental">
+            <td class="name">
+              <%= link_to "3. Centrales de mini hidráulica de pasada", path_to_image("levers/3.pdf"), :target => "_new", data: {choicenumber: 3} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/4.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c3l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="3" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según información CNE 2015 - 2016
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c3l2" class="choiceLink tooltipclass" href="#" data-choicenumber="3" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 2,7 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c3l3" class="choiceLink tooltipclass" href="#" data-choicenumber="3" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 6 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c3l4" class="choiceLink tooltipclass" href="#" data-choicenumber="3" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 9,5 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r4" class="lever incremental">
+            <td class="name">
+              <%= link_to "4. Centrales de hidráulica de pasada", path_to_image("levers/4.pdf"), :target => "_new", data: {choicenumber: 4} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/5.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c4l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="4" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según información CNE 2015 - 2016
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c4l2" class="choiceLink tooltipclass" href="#" data-choicenumber="4" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 5 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c4l3" class="choiceLink tooltipclass" href="#" data-choicenumber="4" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 7 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c4l4" class="choiceLink tooltipclass" href="#" data-choicenumber="4" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 9,5 GW 
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r5" class="lever incremental">
+            <td class="name">
+              <%= link_to "5. Centrales de hidráulica de embalse", path_to_image("levers/5.pdf"), :target => "_new", data: {choicenumber: 5} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/6.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c5l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="5" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según información CNE 2015 - 2016
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c5l2" class="choiceLink tooltipclass" href="#" data-choicenumber="5" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 5 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c5l3" class="choiceLink tooltipclass" href="#" data-choicenumber="5" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 8 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c5l4" class="choiceLink tooltipclass" href="#" data-choicenumber="5" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 11 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r6" class="lever incremental">
+            <td class="name">
+              <%= link_to "6. Centrales mareomotriz", path_to_image("levers/6.pdf"), :target => "_new", data: {choicenumber: 6} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/7.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c6l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="6" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo hasta el 2030, alcalzando una capacidad instalada de 0,03 GW al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c6l2" class="choiceLink tooltipclass" href="#" data-choicenumber="6" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,2 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c6l3" class="choiceLink tooltipclass" href="#" data-choicenumber="6" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,5 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c6l4" class="choiceLink tooltipclass" href="#" data-choicenumber="6" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,9 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r7" class="lever incremental">
+            <td class="name">
+              <%= link_to "7. Centrales undimotriz", path_to_image("levers/7.pdf"), :target => "_new", data: {choicenumber: 7} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/8.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c7l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="7" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo hasta el 2030, alcanzando una capacidad instalada de 0,1 GW al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c7l2" class="choiceLink tooltipclass" href="#" data-choicenumber="7" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,4 GW 
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c7l3" class="choiceLink tooltipclass" href="#" data-choicenumber="7" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,9 GW 
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c7l4" class="choiceLink tooltipclass" href="#" data-choicenumber="7" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 1,7 GW 
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r8" class="lever incremental">
+            <td class="name">
+              <%= link_to "8. Centrales geotérmicas", path_to_image("levers/8.pdf"), :target => "_new", data: {choicenumber: 8} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/9.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c8l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="8" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Considera solo la operación de proyecto Cerro Pabellón (50 MW)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c8l2" class="choiceLink tooltipclass" href="#" data-choicenumber="8" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 0,5 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c8l3" class="choiceLink tooltipclass" href="#" data-choicenumber="8" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 1,4 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c8l4" class="choiceLink tooltipclass" href="#" data-choicenumber="8" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 2,2 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r9" class="lever incremental">
+            <td class="name">
+              <%= link_to "9. Centrales solares fotovoltaicas (FV)", path_to_image("levers/9.pdf"), :target => "_new", data: {choicenumber: 9} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/10.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c9l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="9" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según información CNE 2014 - 2015
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c9l2" class="choiceLink tooltipclass" href="#" data-choicenumber="9" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de  5 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c9l3" class="choiceLink tooltipclass" href="#" data-choicenumber="9" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de  7 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c9l4" class="choiceLink tooltipclass" href="#" data-choicenumber="9" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de  9 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r10" class="lever incremental">
+            <td class="name">
+              <%= link_to "10. Centrales termosolares de concentración (CSP)", path_to_image("levers/10.pdf"), :target => "_new", data: {choicenumber: 10} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/11.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c10l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="10" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c10l2" class="choiceLink tooltipclass" href="#" data-choicenumber="10" data-choicelevel="2">2
+                <span class="tooltiptext">
+                   Capacidad instalada al 2050 de 3,7 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c10l3" class="choiceLink tooltipclass" href="#" data-choicenumber="10" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de  5,6 GW (1% potencial ERNC)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c10l4" class="choiceLink tooltipclass" href="#" data-choicenumber="10" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 11,1 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r11" class="lever incremental">
+            <td class="name">
+              <%= link_to "11. Techos solares a nivel residencial", path_to_image("levers/11.pdf"), :target => "_new", data: {choicenumber: 11} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/11.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c11l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="11" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de  0,3 GW  (Sin política)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c11l2" class="choiceLink tooltipclass" href="#" data-choicenumber="11" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 1 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c11l3" class="choiceLink tooltipclass" href="#" data-choicenumber="11" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 2 GW
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c11l4" class="choiceLink tooltipclass" href="#" data-choicenumber="11" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Capacidad instalada al 2050 de 2,8 GW
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r12" class="lever incremental">
+            <td class="name">
+              <%= link_to "12. Centrales a biomasa", path_to_image("levers/12.pdf"), :target => "_new", data: {choicenumber: 12} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/1.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c12l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="12" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Según variación porcentual  en la capacidad instalada entre 2015-2016 según la CNE
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c12l2" class="choiceLink tooltipclass" href="#" data-choicenumber="12" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  De acuerdo a  Escenario 10 mesa ERNC
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c12l3" class="choiceLink tooltipclass" href="#" data-choicenumber="12" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  1,71 GW adicionales al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c12l4" class="choiceLink tooltipclass" href="#" data-choicenumber="12" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  2,4 GW adicionales al 2050
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <h5>
+        <i class="fa fa-fire" aria-hidden="true"></i>
+        Uso de residuos
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r13" class="lever incremental">
+            <td class="name">
+              <%= link_to "13. Quema en antorchas, generación eléctrica y captura de biogás", path_to_image("levers/13.pdf"), :target => "_new", data: {choicenumber: 13} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/13.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c13l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="13" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Supone la operación de la plantas Loma los Colorados y Santa Marta, junto con sus planes de expansión, sin el ingreso de nuevas centrales
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c13l2" class="choiceLink tooltipclass" href="#" data-choicenumber="13" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al escenario anterior se suma el ingreso de operación de central Los Molles en 2020
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c13l3" class="choiceLink tooltipclass" href="#" data-choicenumber="13" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Mantiene la trayecotria del nivel 2 hasta el 2025, posterior a esto se considera un 75% del biogás capturado es utilizado para generación eléctrica.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c13l4" class="choiceLink tooltipclass" href="#" data-choicenumber="13" data-choicelevel="4">4
+                <span class="tooltiptext">
+                   Mantiene la trayectoria del nivel 2 hasta el 2020, posterior a esto se considera un 100% del biogás capturado es utilizado para generación eléctrica.
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <h5>
+        <%= image_tag("agropecuary3.png", class:"agropecuary") %>
+        Agropecuario
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r14" class="lever incremental">
+            <td class="name">
+              <%= link_to "14. Biodigestores en agricultura", path_to_image("levers/14.pdf"), :target => "_new", data: {choicenumber: 14} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/14.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c14l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="14" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Considera los 1,6  MW de generación eléctrica mediante biodigestores ya existentes al 2050.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c14l2" class="choiceLink tooltipclass" href="#" data-choicenumber="14" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Desarrollo de biodigestores que para el 2050, el 30% de los desechos de cerdo se utilizan en la producción de energía.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c14l3" class="choiceLink tooltipclass" href="#" data-choicenumber="14" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al  2050,  la población de cerdos  y vacas lecheras  producen energía a través de biodigestores en un 70% y 30%, respectivamente.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c14l4" class="choiceLink tooltipclass" href="#" data-choicenumber="14" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  En 2050 los desechos de aves, cerdos y vacas lecheras son destinados para un uso en biodigestores con fines energéticos en 5%,  80% y 90%, respectivamente.
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r15" class="lever incremental">
+            <td class="name">
+              <%= link_to "15. Uso de ERNC para riego", path_to_image("levers/15.pdf"), :target => "_new", data: {choicenumber: 15} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/15.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c15l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="15" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  40% de los pequeños agricultores ocupan sistema de bombeo de agua basado en energía fotovoltaica en 2050.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c15l2" class="choiceLink tooltipclass" href="#" data-choicenumber="15" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  el 30% y 40 % de los medianos y pequeños agricultores respectivamente utilizan sistema de bombeo de agua basado en energía fotovoltaica al 2050.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c15l3" class="choiceLink tooltipclass" href="#" data-choicenumber="15" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  100% de los pequeños agricultores utilizan paneles fotovoltaicos en 2050. los medianos agricultores alcanzan 50% en el 2050 y los grandes alcanzan el 100% en 2040.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c15l4" class="choiceLink tooltipclass" href="#" data-choicenumber="14" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  100% de los pequeños agricultores utilizan paneles fotovoltaicos en 2050. los medianos agricultores alcanzan 80% en el 2050 y los grandes alcanzan el 100% en 2030.
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Columna del centro; Demanda -->
+    <div id="demand">
+      <h5>
+        <i class="fa fa-bus" aria-hidden="true"></i>
+        Transporte
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r16" class="lever incremental">
+            <td class="name">
+              <%= link_to "16. Fomento a compartir el auto mediante carpooling", path_to_image("levers/16.pdf"), :target => "_new", data: {choicenumber: 16} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/16.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c16l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="16" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Tasa de ocupación de 1,72 al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c16l2" class="choiceLink tooltipclass" href="#" data-choicenumber="16" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Tasa de ocupación de 1,89 al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c16l3" class="choiceLink tooltipclass" href="#" data-choicenumber="16" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Tasa de ocupación de 2,06 al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c16l4" class="choiceLink tooltipclass" href="#" data-choicenumber="16" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Tasa de ocupación de 2,28 al 2050
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r17" class="lever incremental">
+            <td class="name">
+              <%= link_to "17. Mejoras en rendimientos del parque vehicular", path_to_image("levers/17.pdf"), :target => "_new", data: {choicenumber: 17} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/17.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c17l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="17" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Renovación natural del parque. 1,61% mejor que en 2015 (km/LGE)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c17l2" class="choiceLink tooltipclass" href="#" data-choicenumber="17" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Renovación natural del parque. 2% mejor que en 2015 (km/LGE)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c17l3" class="choiceLink tooltipclass" href="#" data-choicenumber="17" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Renovación natural del parque. 2,5% mejor que en 2015 (km/LGE)
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c17l4" class="choiceLink tooltipclass" href="#" data-choicenumber="17" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Renovación natural del parque. 3,05% mejor que en 2015 (km/LGE)
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r18" class="lever incremental">
+            <td class="name">
+              <%= link_to "18. Venta de vehículos de baja emisión", path_to_image("levers/18.pdf"), :target => "_new", data: {choicenumber: 18} %>
+            </td> 
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/18.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c18l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="18" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Ventas de vehículos eléctricos al 2050  menor al 1%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c18l2" class="choiceLink tooltipclass" href="#" data-choicenumber="18" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Ventas de vehículos eléctricos al  2050  del 14%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c18l3" class="choiceLink tooltipclass" href="#" data-choicenumber="18" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Ventas de vehículos eléctricos al 2050 del 23%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c18l4" class="choiceLink tooltipclass" href="#" data-choicenumber="18" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Ventas de vehículos eléctricos al 2050 del 40%
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r19" class="lever incremental">
+            <td class="name">
+              <%= link_to "19. Fomento al transporte público", path_to_image("levers/19.pdf"), :target => "_new", data: {choicenumber: 19} %>
+            </td> 
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/19.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c19l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="19" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Al 2050, la relación entre el transporte publico y privado cae de 0,51 a 0,38.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c19l2" class="choiceLink tooltipclass" href="#" data-choicenumber="19" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050, la relación entre el transporte publico y privado cae de 0,51 a 0,44.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c19l3" class="choiceLink tooltipclass" href="#" data-choicenumber="19" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050, la relación entre el transporte publico y privado cae de 0,51 a 0,46.
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c19l4" class="choiceLink tooltipclass" href="#" data-choicenumber="19" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050, la relación entre el transporte publico y privado sube de 0,51 a 0,53.
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody> 
+      </table>
+      <br>
+      <h5>
+        <i class="fa fa-industry" aria-hidden="true"></i>
+        Industria y minería
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r20" class="lever incremental">
+            <td class="name">
+              <%= link_to "20. Fomento de sistemas de recuperación de calor y solares térmicos", path_to_image("levers/20.pdf"), :target => "_new", data: {choicenumber: 20} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/20.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c20l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="20" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  No existen sistema de recuperación de calor
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c20l2" class="choiceLink tooltipclass" href="#" data-choicenumber="20" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  La recuperación de calor y el remplazo de energía térmica por energía solar es del 2,2% al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c20l3" class="choiceLink tooltipclass" href="#" data-choicenumber="20" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  La recuperación de calor y el remplazo de energía térmica por energía solar es del 6,5% al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c20l4" class="choiceLink tooltipclass" href="#" data-choicenumber="20" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  La recuperación de calor y el remplazo de energía térmica por energía solar es del 9,5% al 2050
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r21" class="lever incremental">
+            <td class="name">
+              <%= link_to "21. Reemplazo de diésel y petróleo combustible por gas natural", path_to_image("levers/21.pdf"), :target => "_new", data: {choicenumber: 21} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/21.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c21l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="21" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c21l2" class="choiceLink tooltipclass" href="#" data-choicenumber="21" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050, se remplaza del 29,7% de diésel y petróleo por gas natural
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c21l3" class="choiceLink tooltipclass" href="#" data-choicenumber="21" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050, se remplaza del 59,4% de diésel y petróleo por gas natural
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c21l4" class="choiceLink tooltipclass" href="#" data-choicenumber="21" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050, se remplaza del 89,1% de diésel y petróleo por gas natural
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r22" class="lever incremental">
+            <td class="name">
+              <%= link_to "22. Implementación de sistemas de gestión de energía (ISO 50001)", path_to_image("levers/22.pdf"), :target => "_new", data: {choicenumber: 22} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/22.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c22l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="22" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c22l2" class="choiceLink tooltipclass" href="#" data-choicenumber="22" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  3% en ahorro al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c22l3" class="choiceLink tooltipclass" href="#" data-choicenumber="22" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  7% en ahorro al 2050
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c22l4" class="choiceLink tooltipclass" href="#" data-choicenumber="22" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  10% en ahorro al 2050
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody> 
+      </table>
+      <br>
+      <h5>
+        <i class="fa fa-home" aria-hidden="true"></i>
+        Hogares
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r23" class="lever incremental">
+            <td class="name">
+              <%= link_to "23. Mejoras en envolvente edificaciones nuevas y existentes", path_to_image("levers/23.pdf"), :target => "_new", data: {choicenumber: 23} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/23.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c23l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="23" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c23l2" class="choiceLink tooltipclass" href="#" data-choicenumber="23" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050, se reduce 25% en calefacción por m<sup>2</sup>
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c23l3" class="choiceLink tooltipclass" href="#" data-choicenumber="23" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050, se reduce 40% en calefacción por m<sup>2</sup>
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c23l4" class="choiceLink tooltipclass" href="#" data-choicenumber="23" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050, se reduce 75% en calefacción por m<sup>2</sup>
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r24" class="lever incremental">
+            <td class="name">
+              <%= link_to "24. Fomento de calefacción con electricidad", path_to_image("levers/24.pdf"), :target => "_new", data: {choicenumber: 24} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/24.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c24l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="24" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c24l2" class="choiceLink tooltipclass" href="#" data-choicenumber="24" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050, se remplaza el 25% de calefacción de biomasa por electricidad
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c24l3" class="choiceLink tooltipclass" href="#" data-choicenumber="24" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050, se remplaza el 45% de calefacción de biomasa por electricidad
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c24l4" class="choiceLink tooltipclass" href="#" data-choicenumber="24" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050, se remplaza el 65% de calefacción de biomasa por electricidad
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r25" class="lever incremental">
+            <td class="name">
+              <%= link_to "25. Estándares de eficiencia en artefactos eléctricos e iluminación", path_to_image("levers/25.pdf"), :target => "_new", data: {choicenumber: 25} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/25.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c25l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="25" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c25l2" class="choiceLink tooltipclass" href="#" data-choicenumber="25" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 13%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c25l3" class="choiceLink tooltipclass" href="#" data-choicenumber="25" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 17%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c25l4" class="choiceLink tooltipclass" href="#" data-choicenumber="25" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 22%
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <h5>
+        <i class="fa fa-users" aria-hidden="true"></i>
+        Comercial y público
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r26" class="lever incremental">
+            <td class="name">
+              <%= link_to "26. Implimentación en estándares eficiencia en artefactos eléctricos e iluminación", path_to_image("levers/26.pdf"), :target => "_new", data: {choicenumber: 26} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/26.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1, 2, 3 y 4.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c26l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="26" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Sin desarrollo
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c26l2" class="choiceLink tooltipclass" href="#" data-choicenumber="26" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 13%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c26l3" class="choiceLink tooltipclass" href="#" data-choicenumber="26" data-choicelevel="3">3
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 17%
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c26l4" class="choiceLink tooltipclass" href="#" data-choicenumber="26" data-choicelevel="4">4
+                <span class="tooltiptext">
+                  Al 2050 se logran mejoras en eficiencia del 22%
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Columna de la derecha; Otros -->
+    <div id="other">
+      <h5>
+        <i class="fa fa-money" aria-hidden="true"></i>
+        Variables socioeconómicas
+      </h5>
+      <table>
+        <tbody>
+          <tr id="r27" class="lever incremental">
+            <td class="name">
+              <%= link_to "27. Crecimiento poblacional", path_to_image("levers/27.pdf"), :target => "_new", data: {choicenumber: 27} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/27.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1 y 2.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c27l1" class="choiceLink tooltipclass selected level1 tooltipclass" href="#" data-choicenumber="27" data-choicelevel="1">1
+                <span class="tooltiptext">Proyección realizada por el INE</span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c27l2" class="choiceLink tooltipclass" href="#" data-choicenumber="27" data-choicelevel="2">2
+                <span class="tooltiptext">
+                  Proyección 10% menor al 2050 respecto a la realizada por el INE
+                </span>
+              </a>
+            </td>
+          </tr>
+          <tr id="r28" class="lever incremental">
+            <td class="name">
+              <%= link_to "28. Crecimiento económico", path_to_image("levers/28.pdf"), :target => "_new", data: {choicenumber: 28} %>
+            </td>
+            <td class="help">
+              <a class="tooltipclass" href="<%= path_to_image("levers/28.pdf") %>" target="_new">?
+                <span class="tooltiptext">
+                  Click para más detalles sobre qué significan los niveles 1 y 2.
+                </span>
+              </a>
+            </td>
+            <!-- One cell per level for that choice -->
+            <td class="choice">
+              <a id="c28l1" class="choiceLink tooltipclass selected level1" href="#" data-choicenumber="28" data-choicelevel="1">1
+                <span class="tooltiptext">
+                  Escenario optimista
+                </span>
+              </a>
+            </td>
+            <td class="choice">
+              <a id="c28l2" class="choiceLink tooltipclass" href="#" data-choicenumber="28" data-choicelevel="2">2
+              <span class="tooltiptext">
+                Escenario conservador
+              </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="notes-container">
+        <h5>Notas</h5>
+        <table id="notes">
+          <tbody>
+            <tr>
+              <td id="firstcell">
+                <div class="help">?</div>
+              </td>
+              <td>El signo de interrogación te lleva a las descripciones de cada opción.</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="level1">1</div>
+              </td>
+              <td>Elección que refleja el menor esfuerzo posible.</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="level2">2</div>
+              </td>
+              <td>Nivel de esfuerzo para la mitigación de gases de efecto invernadero visto como ambicioso pero razonable por muchos expertos.</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="level3">3</div>
+              </td>
+              <td>Nivel de esfuerzo para la mitigación de gases de efecto invernadero que requiere cambios significativos en el sistema energético actual y/o avances tecnológicos.</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="level4">4</div>
+              </td>
+              <td>Mayor esfuerzo posible para la mitigación de gases de efecto invernadero, solamente limitado por barreras tecnológicas o físicas.</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="alternate">A</div>
+                -
+                <div class="alternate">D</div>
+              </td>
+              <td>
+                Rango de opciones donde una alternativa no es necesariamente más intensa que otra.
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id='footer'>
+    <!-- Change this to link to your country's website -->
+    Todas las suposiciones y cálculos están disponibles en una hoja de cálculo. Descargar <a href='/docs/model/C2050.xlsx' download>Excel</a>. El código de este sitio está disponible bajo una licencia de código abierto en <a href='https://github.com/Pistorius/calculator2050'>GitHub</a>
+  </div>
+
+  <script>
+
+    // --------------------------------D3 stacked area chart example--------------------------------
+    // // get the data
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/calculator/init_charts', 
+    //   success: function(response) {
+
+    //     var margin = {top: 20, right: 100, bottom: 30, left: 50},
+    //       width = 650 - margin.left - margin.right,
+    //       height = 400 - margin.top - margin.bottom;
+
+    //     // Just numbers format
+    //     formatSimple = d3.format("");
+
+    //     var x = d3.time.scale()
+    //       .range([0, width]);
+
+    //     var y = d3.scale.linear()
+    //       .range([height, 0]);
+
+    //     var color = d3.scale.category20();
+
+    //     var xAxis = d3.svg.axis()
+    //       .scale(x)
+    //       .orient("bottom")
+    //       .tickFormat(formatSimple);
+
+    //     var yAxis = d3.svg.axis()
+    //       .scale(y)
+    //       .orient("left")
+
+    //     var area = d3.svg.area()
+    //       .x(function(d) { return x(d.year); })
+    //       .y0(function(d) { return y(d.y0); })
+    //       .y1(function(d) { return y(d.y0 + d.y); });
+
+    //     var stack = d3.layout.stack()
+    //       .values(function(d) { return d.values; });
+
+    //     var svg = d3.select("body").append("svg")
+    //       .attr("width", width + margin.left + margin.right)
+    //       .attr("height", height + margin.top + margin.bottom)
+    //       .append("g")
+    //       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    //     data = response.data.chart_energy_supply_d3
+
+    //     color.domain(d3.keys(data[0]).filter(function(key) { return key !== "year"; }));
+
+    //     var browsers = stack(color.domain().map(function(name) {
+    //       return {
+    //         name: name,
+    //         values: data.map(function(d) {
+    //           return {year: d.year, y: d[name] * 1};
+    //         })
+    //       };
+    //     }));
+
+    //     // Find the value of the day with highest total value
+    //     var maxDateVal = d3.max(data, function(d){
+    //       var vals = d3.keys(d).map(function(key){ return key !== "year" ? d[key] : 0 });
+    //       return d3.sum(vals);
+    //     });
+
+    //     // Set domains for axes
+    //     x.domain(d3.extent(data, function(d) { return d.year; }));
+    //     y.domain([0, maxDateVal])
+
+    //     var browser = svg.selectAll(".browser")
+    //       .data(browsers)
+    //       .enter().append("g")
+    //       .attr("class", "browser");
+
+    //     browser.append("path")
+    //       .attr("class", "area")
+    //       .attr("d", function(d) { return area(d.values); })
+    //       .style("fill", function(d) { return color(d.name); });
+
+    //     browser.append("text")
+    //       .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+    //       .attr("transform", function(d) { return "translate(" + x(d.value.year) + "," + y(d.value.y0 + d.value.y / 2) + ")"; })
+    //       .attr("x", -6)
+    //       .attr("dy", ".35em")
+    //       .text(function(d) { return d.name; });
+
+    //     svg.append("g")
+    //       .attr("class", "x axis")
+    //       .attr("transform", "translate(0," + height + ")")
+    //       .call(xAxis);
+
+    //     svg.append("g")
+    //       .attr("class", "y axis")
+    //       .call(yAxis);
+
+    //   },
+    //   error: function(error) {
+    //     alert("Error, por favor inténtelo denuevo");
+    //   }
+    // });
+    // ---------------------------------------------------------------------------------------------
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+  </script>
+</body>

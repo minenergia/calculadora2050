@@ -1,0 +1,89 @@
+#results {
+  height: 380px;
+  text-align: center;
+  margin: auto;
+  width: 95%;
+}
+
+#energy, #electricity {
+  height: 85%;
+}
+
+#alert {
+  animation: fadeEffect 0.5s;
+  margin-left: 35%;
+  position: absolute;
+  width: 600px;
+  z-index: 1;
+}
+
+.chart_content_energy {
+  display: inline-block;
+  height: 100%;
+  margin-left: 1%;
+  width: 31%;
+}
+
+.chart_content_electricity {
+  display: inline-block;
+  height: 100%;
+  margin-left: 1%;
+  width: 35%;
+}
+
+.chart_title {
+  text-align: center;
+}
+
+.chart {
+  height: 100%;
+  width: 100%;
+}
+
+.google-visualization-tooltip { 
+  border: 1px solid black !important;
+  border-radius: 10px !important;
+  box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75) !important;
+  opacity: 0.9 !important;
+  width: 255px !important;
+}
+
+div.google-visualization-tooltip > ul {
+  left: 2% !important;
+  position: relative !important;
+  width: 245px !important;
+}
+
+div.google-visualization-tooltip > ul > :first-child {
+  border-bottom: 1px solid grey !important;
+  height: 30px !important;
+}
+
+div.google-visualization-tooltip > ul > li > :first-child {
+  font-size: 15px !important;
+}
+div.google-visualization-tooltip > ul > :first-child:after {
+  content: " (TWh)" !important;
+}
+
+.esp > div > div > div.google-visualization-tooltip > ul > :first-child:after {
+  content: " (Mt CO2e)" !important;
+}
+
+div.google-visualization-tooltip > ul > :not(:first-child) {
+  text-align: left !important;
+}
+
+div.google-visualization-tooltip-square {
+  height: 10px !important;
+  width: 15px !important;
+}
+
+.chart > div > div > div > svg > g > text {
+  font-size: 11px !important;
+  text-align: center !important;
+}
+
+.chart > div > div > div > svg > g > g > g > g > path:hover {
+  fill-opacity: 1;
+}

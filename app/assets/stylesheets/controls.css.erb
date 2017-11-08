@@ -1,0 +1,137 @@
+.subtitle {
+  text-align: center;
+}
+
+#classic_controls {
+  /*border: 1px solid green;*/
+  font-size: 0.8em;
+  margin: auto;
+  /*overflow: auto;*/
+  width: 95%;
+}
+#classic_controls #demand, #classic_controls #supply, #classic_controls #other {
+  border: 0;
+  float: left;
+  margin: 0;
+  margin-left: 2.5%;
+  /*margin-top: 1%;*/
+  padding: 0;
+  width: 30%;
+}
+#classic_controls table {
+  border-collapse: separate;
+  border-spacing: 2px 0px;
+}
+#classic_controls table tr:hover td.name {
+  background-image: url('../images/oneblackpixel.png');
+  font-weight: bold;
+}
+#classic_controls table td.choice {
+  width: 20px;
+}
+#classic_controls table td.choice a {
+  border: solid #ccc 1px;
+  display: block;
+  color: #888;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+}
+#classic_controls table td.choice a:hover {
+  border: solid #000 1px;
+}
+#classic_controls table td.choice a.selected {
+  color: #000;
+}
+#classic_controls table td.name {
+  background-image: url('../images/onegreypixel.png');
+  background-position: left center;
+  background-repeat: repeat-x;
+  width: 430px;
+}
+#classic_controls table td.name a, #classic_controls table td.name button {
+  background-color: #fff;
+  color: #000;
+  cursor: help;
+  text-decoration: none;
+}
+#classic_controls table td.name a:hover, #classic_controls table td.name button:hover {
+  text-decoration: underline;
+}
+#classic_controls table td.help a, #classic_controls div.help {
+  background-color: #7c88fa;
+  border: solid #7c88fa 1px;
+  color: white;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  
+}
+#classic_controls table td.help, #classic_controls div.help {
+  width: 14px;
+}
+
+#classic_controls table tr.incremental a {
+  background-position: left center;
+  background-repeat: repeat-y;
+}
+<% 1.upto(4) do |c| %>
+  <% 1.upto(9) do |i| %>
+    #classic_controls table tr.incremental a.level<%= c %>_<%= i %> { background-image: url('../images/fractions/level<%= c %>_<%= i %>.png'); }
+  <% end %>
+<% end %>
+
+#classic_controls div.level1, 
+#classic_controls div.level2, 
+#classic_controls div.level3,
+#classic_controls div.level4, 
+#classic_controls div.alternate  {
+  color: #000;
+  border: solid #ccc 1px;
+  display: inline-block;
+  text-align: center;
+  width: 14px;
+}
+
+#classic_controls table#notes {
+  border-spacing: 0px 5px;
+  text-align: justify;
+}
+
+#notes td#firstcell {
+  width: 60px;
+}
+
+#classic_controls table tr.incremental a.level1, #classic_controls div.level1 {
+  background-color: #92C979;
+}
+#classic_controls table tr.incremental a.level2, #classic_controls div.level2 {
+  background-color: #EFDD60;
+}
+#classic_controls table tr.incremental a.level3, #classic_controls div.level3 {
+  background-color: #FFAE55;
+}
+#classic_controls table tr.incremental a.level4, #classic_controls div.level4 {
+  background-color: #F44545;
+}
+#classic_controls table tr.alternative a.selected {
+  background-color: #aaa;
+}
+
+.notes-container {
+  height: 100%;
+  border: solid green 2px;
+  /*border-color: green;*/
+}
+
+.notes-container h5, .notes-container table {
+  margin: 2%;
+}
+.notes-container h5 {
+  text-align: center;
+}
+.agropecuary {
+  width: 20px;
+  height: 20px;
+}
