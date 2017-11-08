@@ -4654,3 +4654,51 @@ Processing by CalculatorController#set_options as */*
 Completed 200 OK in 8ms (Views: 1.8ms | ActiveRecord: 0.0ms)
 
 
+Started GET "//" for 127.0.0.1 at 2017-11-08 11:16:47 -0300
+Cannot render console from 10.0.13.75! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (357.1ms)
+Completed 200 OK in 430ms (Views: 411.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 10.0.14.71 at 2017-11-08 11:16:53 -0300
+Cannot render console from 10.0.14.71! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 61ms (Views: 59.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/calculator" for 10.0.14.71 at 2017-11-08 11:17:19 -0300
+Cannot render console from 10.0.14.71! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CalculatorController#index as HTML
+  Rendering calculator/index.html.erb within layouts/application
+  Rendered calculator/index.html.erb within layouts/application (290.0ms)
+Completed 200 OK in 382ms (Views: 363.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/calculator/set_options" for 10.0.14.71 at 2017-11-08 11:17:20 -0300
+Cannot render console from 10.0.14.71! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CalculatorController#set_options as */*
+  Parameters: {"choices_str"=>"A111111111111111111111111111"}
+Completed 200 OK in 222ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "//calculator" for 127.0.0.1 at 2017-11-08 11:17:26 -0300
+Cannot render console from 10.0.13.75! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CalculatorController#index as HTML
+  Rendering calculator/index.html.erb within layouts/application
+  Rendered calculator/index.html.erb within layouts/application (39.6ms)
+Completed 200 OK in 84ms (Views: 82.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "//calculator/set_options" for 127.0.0.1 at 2017-11-08 11:17:26 -0300
+Cannot render console from 10.0.13.75! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CalculatorController#set_options as */*
+  Parameters: {"choices_str"=>"A111111111111111111111111111"}
+Completed 200 OK in 7ms (Views: 1.7ms | ActiveRecord: 0.0ms)
+
+
